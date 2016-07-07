@@ -2,99 +2,30 @@
 <head>
 	<script type="text/javascript" charset="utf-8" src="http://47.89.41.153/socket.io/socket.io.js"></script>
 	<script type="text/javascript" charset="utf-8" src="http://47.89.41.153/js/jquery-2.2.4.min.js"></script>
-	<script type="text/javascript" charset="utf-8">
-	$.ajax({
-		type: "POST",
-		url: "/get_ip_list",
-		data: " ",
-		success: function(msg){
-			$('#ip').append('<option value =' + msg + '>' + msg +'</option>');
-		}
-	});
-	
-	$(document).ready(function(){
-	    var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-	    socket.on('my response', function(msg) {
-			var value_new = $('#log').val() + "\n" + msg.data
-			$('#log').val(value_new)
-
-	        //$('#log').append('<p>Received: ' + msg.data + '</p>');
-	    });
-	    $('form#select_log').submit(function(event) {
-			$('#log').val("")
-	        socket.emit('my event', {ip: $('#ip').val(), dir: $('#dir').val(), file: $('#file').val()});
-	        return false;
-	    });
-	    $('form#broadcast').submit(function(event) {
-	        socket.emit('my broadcast event', {data: $('#broadcast_data').val()});
-	        return false;
-	    });
-
-		$('#log').scrollTop($('#log')[0].scrollHeight);
-
-		$("#dir").click(function(){
-			$.post(
-				"/get_dir_list",
-				{ip: $('#ip').val()},
-					
-				function(data, status){
-					$("#dir").empty();
-					var dirs = data.split(' ');
-					dirs.forEach(function(e){
-						$('#dir').append('<option value =' + e + '>' + e +'</option>');
-					})
-				}
-			);
-		});
-		$("#file").click(function(){
-			$.post(
-				"/get_file_list",
-				{
-					ip: $('#ip').val(),
-					dir: $('#dir').val()
-				},
-					
-				function(data, status){
-					$("#file").empty();
-					var dirs = data.split(' ');
-					dirs.forEach(function(e){
-						$('#file').append('<option value =' + e + '>' + e +'</option>');
-					})
-				}
-			);
-		});
-	});
-	</script>
-	<style>
-		#log {
-			overflow-y: scroll;
-			height: 400px;
-			width: 850px;
-			border: 2px solid red;
-			font-family: Courier New;
-			font-size: 12;
-			background-color: #222;
-			color: #5f5;
-		}
-	</style>
+	<script src="{{ url_for('static', filename='index.js') }}"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" type="text/css">
 </head>
-	<body>
-		<form id="select_log">
-			<label>ip</label>
-			<select id="ip" name="ip">
-			</select>
-			<label>dir</label>
-			<select id="dir" name="dir">
-			</select>
-			<label>file</label>
-			<select id="file" name="file">
-			</select>
-			<input type=submit value="show log"></input>
-		</form>
-		<form id="broadcast">
-			<input id="broadcast_data" type=textarea></input>
-			<input type=submit value="broadcast"></input>
-		</form>
-		<textarea disabled id="log"></textarea>
-	</body>
+<body>
+	<form id="select_form">
+		<div class="select_form">
+		<div class="select_div"><p>ip</p>
+			<div class="styled-select"><select id="ip" name="ip"></select></div>
+		</div>
+		<div class="select_div"><p>dir</p>
+			<div class="styled-select"><select id="dir" name="dir"></select></div>
+		</div>
+		<div class="select_div"><p>file</p>
+			<div class="styled-select"><select id="file" name="file"></select></div>
+		</div>
+		<div class="btn_out"><input class="btn" type=submit value="Watch log"></input></div>
+		</div>
+	</form>
+	<div class="broadcast_form"><!--
+	<form id="broadcast">
+		<input id="broadcast_data" type=textarea></input>
+		<div class="btn_out"><input class="btn" type=submit value="Broadcast"></input></div>
+	</form> -->
+	<textarea disabled id="log"></textarea>
+	</div>
+</body>
 </html>

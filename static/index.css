@@ -1,0 +1,101 @@
+body {
+	font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	border: 1px solid #d5d5d5;
+	margin: 0px auto;
+	padding: 10px;
+	width: 900px;
+	height: 600px;
+}
+p, form {
+	margin: 0px;
+	padding: 0px;
+}
+textarea {
+	height: 460px; width: 850px;
+	border: 2px solid #9ee;
+	font-size: 13px;
+	margin: 10px 0px;
+	background-color: #eee;
+	color: #000;
+	float:left;
+}
+.styled-select select {
+	background-color: #dcdcdc;
+	box-shadow: outset 0 2px 4px rgba(0,0,0,0.15);
+	background-image: linear-gradient(#fcfcfc, #eee);
+	background: transparent;
+	border: 1px solid #d5d5d5;
+	padding: 0px 10px 0px 0px;
+	position: relative;
+	width: 168px;
+	font-size: 13px;
+	line-height: 1;
+	border-radius: 3px;
+	height: 22px;
+	-webkit-appearance: none;
+}
+/*.styled-select::after {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: -2px;
+    content: "";
+    border: 1px solid;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+	position: relative;
+}*/
+/*#select_form {
+    display: inline-block;
+	width: 800px;
+	height: 55px;
+	background-color: #eee;
+}*/
+.select_form {
+    display: inline-block;
+	width: 800px;
+	height: 45px;
+	margin: 5px 5px 0px 5px;
+}
+.broadcast_form {
+	margin: 5px;
+}
+.select_div {
+	display: inline-block;
+	width: 168px;
+	margin: 0px 10px 0px 0px;
+	padding: 0px 6px 0px 0px;
+	float: left;
+}
+.btn_out {
+	display: inline-block;
+	padding: 17px 5px 0px 5px;
+}
+.btn {
+	background-image: -webkit-linear-gradient(top, #79cc5c, #50c033);
+	background-image: -moz-linear-gradient(top, #79cc5c, #50c033);
+	background-image: -ms-linear-gradient(top, #79cc5c, #50c033);
+	background-image: -o-linear-gradient(top, #79cc5c, #50c033);
+	background-image: linear-gradient(to bottom, #79cc5c, #50c033);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #5ca941;
+	border: 1px solid #d5d5d5;
+	font-weight: bold;
+	color: #fff;
+	font-size: 13px;
+	margin: 0px 0px;
+	padding: 3px 10px;
+	text-decoration: none;
+}
+.btn:hover {
+	background: #79cc5c;
+	background-image: -webkit-linear-gradient(top, #50c033, #60b044);
+	background-image: -moz-linear-gradient(top, #50c033, #60b044);
+	background-image: -ms-linear-gradient(top, #50c033, #60b044);
+	background-image: -o-linear-gradient(top, #50c033, #60b044);
+	background-image: linear-gradient(to bottom, #50c033, #60b044);
+	text-decoration: none;
+}

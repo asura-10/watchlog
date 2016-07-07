@@ -8,7 +8,15 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
-#thread = None
+# celery
+from celery_app import make_celery
+app.config.update(
+    CELERY_BROKER_URL='redis://127.0.0.1:6379',
+    CELERY_RESULT_BACKEND='redis://127.0.0.1:6379'
+)
+celery = make_celery(app)
+
+thread = None
 conf = ConfigParser.ConfigParser()
 conf.read("ws.conf")
 
@@ -50,8 +58,8 @@ def get_file_list_route():
 @socketio.on('my event', namespace='/test')
 def test_message(message):
     #emit('my response', {'data': message['data']})
-	print "message"
-	print message
+	print "message" + str(message)
+	global thread
 	tail_cmd="/usr/bin/ssh %s -p 10022 tail -f %s/%s" % (message['ip'], message['dir'], message['file'])
 	thread = socketio.start_background_task(target=tail_file, tail_cmd=tail_cmd)
 	global g_output_log
