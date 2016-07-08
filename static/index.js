@@ -4,7 +4,10 @@ $(document).ready(function(){
 		url: "/get_ip_list",
 		data: " ",
 		success: function(msg){
-			$("#ip").append("<option value =" + msg + ">" + msg +"</option>");
+			var ips = msg.split(' ');
+			ips.forEach(function(e){
+				$("#ip").append("<option value =" + e + ">" + e +"</option>");
+			})
 		}
 	});
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');

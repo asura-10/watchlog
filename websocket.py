@@ -3,6 +3,7 @@ from flask.ext.socketio import SocketIO, emit
 import time, ConfigParser, json, ast
 from threading import Thread
 from utils import g_output_log, get_ip_list, get_dir_list, get_file_list, tail_file, get_port
+from os import system
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -62,6 +63,8 @@ def test_message(message):
 	print "message" + str(message)
 	global thread
 	port = get_port(conf, message['ip'])
+	command = ("/usr/bin/ssh %s -p %s pkill tail" % (message['ip'], port))
+	system("command")
 	tail_cmd="/usr/bin/ssh %s -p %s tail -f %s/%s" % (message['ip'], port, message['dir'], message['file'])
 	thread = socketio.start_background_task(target=tail_file, tail_cmd=tail_cmd)
 	global g_output_log

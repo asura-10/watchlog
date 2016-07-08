@@ -12,7 +12,7 @@ p, form {
 }
 textarea {
 	height: 460px; width: 850px;
-	border: 2px solid #9ee;
+	border: 1px solid rgb(81, 167, 232);
 	font-size: 13px;
 	margin: 10px 0px;
 	background-color: #eee;
@@ -94,6 +94,7 @@ select:hover {
 	border: 1px solid #d5d5d5;
 	font-weight: bold;
 	color: #fff;
+	outline: none;
 	font-size: 13px;
 	margin: 0px 0px;
 	padding: 3px 10px;
