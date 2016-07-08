@@ -2,19 +2,19 @@ from flask import Flask, render_template, request, json
 from flask.ext.socketio import SocketIO, emit
 import time, ConfigParser, json, ast
 from threading import Thread
-from utils import g_output_log, get_ip_list, get_dir_list, get_file_list, tail_file
+from utils import g_output_log, get_ip_list, get_dir_list, get_file_list, tail_file, get_port
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
 # celery
-from celery_app import make_celery
-app.config.update(
-    CELERY_BROKER_URL='redis://127.0.0.1:6379',
-    CELERY_RESULT_BACKEND='redis://127.0.0.1:6379'
-)
-celery = make_celery(app)
+# from celery_app import make_celery
+# app.config.update(
+#     CELERY_BROKER_URL='redis://127.0.0.1:6379',
+#     CELERY_RESULT_BACKEND='redis://127.0.0.1:6379'
+# )
+# celery = make_celery(app)
 
 thread = None
 conf = ConfigParser.ConfigParser()
@@ -51,7 +51,8 @@ def get_file_list_route():
 	ip = dict(request.form)['ip'][0]
 	dir_name = dict(request.form)['dir'][0]
 	print ip + dir_name
-	file_list = get_file_list(conf, ip, dir_name)
+	port = get_port(conf, ip)
+	file_list = get_file_list(conf, ip, dir_name, port)
 	print file_list
 	return " ".join(file_list)
 
@@ -60,7 +61,8 @@ def test_message(message):
     #emit('my response', {'data': message['data']})
 	print "message" + str(message)
 	global thread
-	tail_cmd="/usr/bin/ssh %s -p 10022 tail -f %s/%s" % (message['ip'], message['dir'], message['file'])
+	port = get_port(conf, ip)
+	tail_cmd="/usr/bin/ssh %s -p %s tail -f %s/%s" % (message['ip'], port, message['dir'], message['file'])
 	thread = socketio.start_background_task(target=tail_file, tail_cmd=tail_cmd)
 	global g_output_log
 	while True:

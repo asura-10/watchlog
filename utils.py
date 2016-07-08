@@ -2,6 +2,9 @@ import subprocess
 
 g_output_log = []
 
+def get_port(conf, ip):
+	return conf.get("port", ip)
+
 def get_ip_list(conf):
 	options = conf.options("file")
 	return options
@@ -13,14 +16,14 @@ def get_dir_list(conf, ip):
 	else:
 		return False
 
-def get_file_list(conf, ip, dir_name):
+def get_file_list(conf, ip, dir_name, port):
 	options = conf.options("file")
 	file_list = []
 	if ip in options:
 		dir_list = conf.get("file", ip).split('|')
 
 	if dir_name in dir_list:
-		get_cmd = "/usr/bin/ssh %s -p 10022 ls -al %s | grep -v \'^d\' | awk \'NR>1{print $NF}\'" % (ip, dir_name)
+		get_cmd = "/usr/bin/ssh %s -p %s ls -al %s | grep -v \'^d\' | awk \'NR>1{print $NF}\'" % (ip, port, dir_name)
 		print get_cmd
 		popen = subprocess.Popen(['bash','-c',get_cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		while True:
