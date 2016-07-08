@@ -61,7 +61,7 @@ def test_message(message):
     #emit('my response', {'data': message['data']})
 	print "message" + str(message)
 	global thread
-	port = get_port(conf, ip)
+	port = get_port(conf, message['ip'])
 	tail_cmd="/usr/bin/ssh %s -p %s tail -f %s/%s" % (message['ip'], port, message['dir'], message['file'])
 	thread = socketio.start_background_task(target=tail_file, tail_cmd=tail_cmd)
 	global g_output_log
