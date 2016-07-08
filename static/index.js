@@ -8,9 +8,11 @@ $(document).ready(function(){
 		}
 	});
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+	var textarea = document.getElementById('log');
     socket.on('my response', function(msg) {
 		var value_new = $('#log').val() + "\n" + msg.data;
 		$('#log').val(value_new);
+		textarea.scrollTop = textarea.scrollHeight;
 		//alert(msg.data);
 		//$('#log').append(msg.data);
 
@@ -28,7 +30,7 @@ $(document).ready(function(){
 
 	$('#log').scrollTop($('#log')[0].scrollHeight);
 
-	$("#dir").click(function(){
+	$("#ip").change(function(){
 		$.post(
 			"/get_dir_list",
 			{ip: $('#ip').val()},
@@ -42,7 +44,7 @@ $(document).ready(function(){
 			}
 		);
 	});
-	$("#file").click(function(){
+	$("#dir").change(function(){
 		$.post(
 			"/get_file_list",
 			{
