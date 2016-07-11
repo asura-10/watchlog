@@ -1,37 +1,37 @@
 <html>
 <head>
-	<script type="text/javascript" charset="utf-8" src="http://47.89.41.153/socket.io/socket.io.js"></script>
-	<script type="text/javascript" charset="utf-8" src="http://47.89.41.153/js/jquery-2.2.4.min.js"></script>
-	<script src="{{ url_for('static', filename='index.js') }}"></script>
-	<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" type="text/css">
+    <script type="text/javascript" charset="utf-8" src="http://47.89.41.153/socket.io/socket.io.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://47.89.41.153/js/jquery-2.2.4.min.js"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" type="text/css">
 </head>
 <body>
-	<form id="select_form">
-		<div class="select_form">
-		<div class="select_div"><p>ip</p>
-			<div class="styled-select"><select id="ip" name="ip">
-				<option selected disabled>Choose IP</option>
-			</select></div>
-		</div>
-		<div class="select_div"><p>dir</p>
-			<div class="styled-select"><select id="dir" name="dir">
-				<option selected disabled>Choose DIR</option>
-			</select></div>
-		</div>
-		<div class="select_div"><p>file</p>
-			<div class="styled-select"><select id="file" name="file">
-				<option selected disabled>Choose FILE</option>
-			</select></div>
-		</div>
-		<div class="btn_out"><input class="btn" type=submit value="Watch log"></input></div>
-		</div>
-	</form>
-	<div class="broadcast_form"><!--
-	<form id="broadcast">
-		<input id="broadcast_data" type=textarea></input>
-		<div class="btn_out"><input class="btn" type=submit value="Broadcast"></input></div>
-	</form> -->
-	<textarea disabled id="log"></textarea>
-	</div>
+    <form id="select_form">
+        <div class="select_form">
+        <div class="select_div"><p>ip</p>
+            <div class="styled-select"><select id="ip" name="ip">
+                <option selected disabled>Choose IP</option>
+            </select></div>
+        </div>
+        <div class="select_div"><p>dir</p>
+            <div class="styled-select"><select id="dir" name="dir">
+                <option selected disabled>Choose DIR</option>
+            </select></div>
+        </div>
+        <div class="select_div"><p>file</p>
+            <div class="styled-select"><select id="file" name="file">
+                <option selected disabled>Choose FILE</option>
+            </select></div>
+        </div>
+        <div class="btn_out"><input class="btn" type=submit value="Watch log"></input></div>
+        </div>
+    </form>
+    <div class="broadcast_form"><!--
+    <form id="broadcast">
+        <input id="broadcast_data" type=textarea></input>
+        <div class="btn_out"><input class="btn" type=submit value="Broadcast"></input></div>
+    </form> -->
+    <textarea disabled id="log"></textarea>
+    </div>
 </body>
 </html>

@@ -1,28 +1,28 @@
 $(document).ready(function(){
-	$.ajax({
-		type: "POST",
-		url: "/get_ip_list",
-		data: " ",
-		success: function(msg){
-			var ips = msg.split(' ');
-			ips.forEach(function(e){
-				$("#ip").append("<option value =" + e + ">" + e +"</option>");
-			})
-		}
-	});
+    $.ajax({
+        type: "POST",
+        url: "/get_ip_list",
+        data: " ",
+        success: function(msg){
+            var ips = msg.split(' ');
+            ips.forEach(function(e){
+                $("#ip").append("<option value =" + e + ">" + e +"</option>");
+            })
+        }
+    });
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-	var textarea = document.getElementById('log');
+    var textarea = document.getElementById('log');
     socket.on('my response', function(msg) {
-		var value_new = $('#log').val() + "\n" + msg.data;
-		$('#log').val(value_new);
-		textarea.scrollTop = textarea.scrollHeight;
-		//alert(msg.data);
-		//$('#log').append(msg.data);
+        var value_new = $('#log').val() + "\n" + msg.data;
+        $('#log').val(value_new);
+        textarea.scrollTop = textarea.scrollHeight;
+        //alert(msg.data);
+        //$('#log').append(msg.data);
 
         //$('#log').append('<p>Received: ' + msg.data + '</p>');
     });
     $('form#select_form').submit(function(event) {
-		$('#log').val("")
+        $('#log').val("")
         socket.emit('my event', {ip: $('#ip').val(), dir: $('#dir').val(), file: $('#file').val()});
         return false;
     });
@@ -31,37 +31,37 @@ $(document).ready(function(){
         return false;
     });
 
-	$('#log').scrollTop($('#log')[0].scrollHeight);
+    $('#log').scrollTop($('#log')[0].scrollHeight);
 
-	$("#ip").change(function(){
-		$.post(
-			"/get_dir_list",
-			{ip: $('#ip').val()},
+    $("#ip").change(function(){
+        $.post(
+            "/get_dir_list",
+            {ip: $('#ip').val()},
 
-			function(data, status){
-				$("#dir").empty();
-				var dirs = data.split(' ');
-				dirs.forEach(function(e){
-					$('#dir').append('<option value =' + e + '>' + e +'</option>');
-				})
-			}
-		);
-	});
-	$("#dir").change(function(){
-		$.post(
-			"/get_file_list",
-			{
-				ip: $('#ip').val(),
-				dir: $('#dir').val()
-			},
+            function(data, status){
+                $("#dir").empty();
+                var dirs = data.split(' ');
+                dirs.forEach(function(e){
+                    $('#dir').append('<option value =' + e + '>' + e +'</option>');
+                })
+            }
+        );
+    });
+    $("#dir").change(function(){
+        $.post(
+            "/get_file_list",
+            {
+                ip: $('#ip').val(),
+                dir: $('#dir').val()
+            },
 
-			function(data, status){
-				$("#file").empty();
-				var dirs = data.split(' ');
-				dirs.forEach(function(e){
-					$('#file').append('<option value =' + e + '>' + e +'</option>');
-				})
-			}
-		);
-	});
+            function(data, status){
+                $("#file").empty();
+                var dirs = data.split(' ');
+                dirs.forEach(function(e){
+                    $('#file').append('<option value =' + e + '>' + e +'</option>');
+                })
+            }
+        );
+    });
 });
