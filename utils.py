@@ -1,6 +1,13 @@
 import subprocess
+import time
+from random import random
 
 g_output_log = []
+
+def uniq_num():
+    pre = str(int(time.time() * 1000000))
+    last = str(int(random() * 10000000000000000))
+    return pre + last
 
 def get_port(conf, ip):
     return conf.get("port", ip)
@@ -45,3 +52,4 @@ def tail_file(tail_cmd):
         if subprocess.Popen.poll(popen) is not None:
             break
     print('DONE')
+

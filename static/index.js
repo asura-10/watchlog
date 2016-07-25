@@ -40,6 +40,7 @@ $(document).ready(function(){
 
             function(data, status){
                 $("#dir").empty();
+                $('#dir').append('<option selected disabled>Choose DIR</option>');
                 var dirs = data.split(' ');
                 dirs.forEach(function(e){
                     $('#dir').append('<option value =' + e + '>' + e +'</option>');
