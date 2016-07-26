@@ -14,14 +14,14 @@ class cookie_ws():
         sid = uniq_num()
         response.set_cookie('sid', sid)
         self.cookie_ws_dic[sid] = {}
-        self.cookie_ws_dic[sid]['time'] = time.time()
+        self.cookie_ws_dic[sid]['start_time'] = time.time()
         self.cookie_ws_dic[sid]['stop_signal'] = 0
 
         print self.cookie_ws_dic
 
         if len(self.cookie_ws_dic) > 10:
             for i in self.cookie_ws_dic:
-                if int(time.time() - i['time']) > 36000:
+                if int(time.time() - i['start_time']) > 36000:
                     self.cookie_ws_dic.pop[i]
 
         return response
