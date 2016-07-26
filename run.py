@@ -79,6 +79,7 @@ def test_connect():
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     global cookie_ws_dic
+    sid = cookie_ws_dic.get_client_sid(request)
     cookie_ws_dic.cookie_ws_dic[sid]['stop_signal'] = 1
     time.sleep(0.5)
     cookie_ws_dic.client_pop(request)
