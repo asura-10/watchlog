@@ -1,4 +1,4 @@
-from utils import uniq_num, get_port
+from utils import uniq_num, get_port, get_user
 #from cmd_bind import cmd_bind
 from watchfile import watchfile
 import time, ConfigParser
@@ -42,13 +42,13 @@ class cookie_ws():
     def output(self, request, message):
         sid = self.get_client_sid(request)
         port = get_port(conf, message['ip'])
+        user = get_user(conf, message['ip'])
         file_path = message['dir'] + "/" +  message['file']
-        tail_cmd="/usr/bin/ssh %s -p %s tail -f %s/%s" % (message['ip'], port, message['dir'], message['file'])
 
         self.cookie_ws_dic[sid]['output'] = []
-        if self.cookie_ws_dic[sid]['cmd']:
+        if self.cookie_ws_dic[sid].has_key('cmd'):
             self.cookie_ws_dic[sid]['cmd'].stop()
-        self.cookie_ws_dic[sid]['cmd'] = watchfile(message['ip'], 'root', port, file_path, self.cookie_ws_dic[sid]['output'])
+        self.cookie_ws_dic[sid]['cmd'] = watchfile(message['ip'], user, port, file_path, self.cookie_ws_dic[sid]['output'])
         self.cookie_ws_dic[sid]['cmd'].start()
 
     def get_client_sid(self, request):

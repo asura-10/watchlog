@@ -6,8 +6,7 @@ from random import random
 from flask import Flask, render_template, request, session, make_response
 from flask.ext.socketio import SocketIO, emit
 
-from utils import g_output_log, get_ip_list, get_dir_list, \
-    get_file_list, get_port, uniq_num
+from utils import get_ip_list, get_dir_list, get_file_list, get_port
 from cookie_ws import cookie_ws
 
 app = Flask(__name__)

@@ -1,8 +1,15 @@
 import subprocess
 import time
 from random import random
+from paramiko import SSHClient, AutoAddPolicy
 
 g_output_log = []
+
+def list_sort(liststring):
+    listtemp = [(x.lower(),x) for x in liststring]
+    listtemp.sort()
+
+    return [x[1] for x in listtemp]
 
 def uniq_num():
     pre = str(int(time.time() * 1000000))
@@ -11,6 +18,9 @@ def uniq_num():
 
 def get_port(conf, ip):
     return conf.get("port", ip)
+
+def get_user(conf, ip):
+    return conf.get("user", ip)
 
 def get_ip_list(conf):
     options = conf.options("file")
@@ -30,15 +40,19 @@ def get_file_list(conf, ip, dir_name, port):
         dir_list = conf.get("file", ip).split('|')
 
     if dir_name in dir_list:
-        get_cmd = "/usr/bin/ssh %s -p %s ls -al %s | grep -v \'^d\' | awk \'NR>1{print $NF}\'" % (ip, port, dir_name)
-        print get_cmd
-        popen = subprocess.Popen(['bash','-c',get_cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        line_list = popen.stdout.readlines()
-        for line in line_list:
-            line = line.strip()
-            file_list.append(line)
+        ssh = SSHClient()
+        ssh.set_missing_host_key_policy(AutoAddPolicy())
+        ssh.connect('127.0.0.1', username = 'root', port = 10022)
+        return list_sort(ssh.open_sftp().listdir(dir_name))
+   #     get_cmd = "/usr/bin/ssh %s -p %s ls -al %s | grep -v \'^d\' | awk \'NR>1{print $NF}\'" % (ip, port, dir_name)
+   #     print get_cmd
+   #     popen = subprocess.Popen(['bash','-c',get_cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+   #     line_list = popen.stdout.readlines()
+   #     for line in line_list:
+   #         line = line.strip()
+   #         file_list.append(line)
 
-    return file_list
+   # return file_list
 
 def tail_file(tail_cmd):
     global g_output_log
