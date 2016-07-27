@@ -1,9 +1,9 @@
-import subprocess
-import time
+import subprocess, time, ConfigParser
 from random import random
 from paramiko import SSHClient, AutoAddPolicy
 
-g_output_log = []
+conf = ConfigParser.ConfigParser()
+conf.read("ws.conf")
 
 def list_sort(liststring):
     listtemp = [(x.lower(),x) for x in liststring]
@@ -42,17 +42,8 @@ def get_file_list(conf, ip, dir_name, port):
     if dir_name in dir_list:
         ssh = SSHClient()
         ssh.set_missing_host_key_policy(AutoAddPolicy())
-        ssh.connect('127.0.0.1', username = 'root', port = 10022)
+        ssh.connect(ip, username = get_user(conf, ip), port = int(port))
         return list_sort(ssh.open_sftp().listdir(dir_name))
-   #     get_cmd = "/usr/bin/ssh %s -p %s ls -al %s | grep -v \'^d\' | awk \'NR>1{print $NF}\'" % (ip, port, dir_name)
-   #     print get_cmd
-   #     popen = subprocess.Popen(['bash','-c',get_cmd], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-   #     line_list = popen.stdout.readlines()
-   #     for line in line_list:
-   #         line = line.strip()
-   #         file_list.append(line)
-
-   # return file_list
 
 def tail_file(tail_cmd):
     global g_output_log

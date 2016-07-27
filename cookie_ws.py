@@ -1,10 +1,7 @@
 from utils import uniq_num, get_port, get_user
-#from cmd_bind import cmd_bind
 from watchfile import watchfile
 import time, ConfigParser
-
-conf = ConfigParser.ConfigParser()
-conf.read("ws.conf")
+from utils import conf
 
 class cookie_ws():
     def __init__(self):

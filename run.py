@@ -13,8 +13,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess secret!'
 socketio = SocketIO(app)
 
-conf = ConfigParser.ConfigParser()
-conf.read("ws.conf")
+from utils import conf
 
 cookie_ws_dic = cookie_ws()
 
