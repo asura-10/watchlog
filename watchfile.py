@@ -37,7 +37,7 @@ class watchfile(threading.Thread):
         for line in self.__watch__():
             if self.stop_signal != 0:
                 break
-            line = str(line).strip()
+            line = line.strip()
             self.line_list.append(line)
             print line
 

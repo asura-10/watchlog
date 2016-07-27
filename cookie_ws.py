@@ -45,11 +45,11 @@ class cookie_ws():
         file_path = message['dir'] + "/" +  message['file']
         tail_cmd="/usr/bin/ssh %s -p %s tail -f %s/%s" % (message['ip'], port, message['dir'], message['file'])
 
-        if not self.cookie_ws_dic[sid].has_key('output'):
-            self.cookie_ws_dic[sid]['output'] = []
-        if not self.cookie_ws_dic[sid].has_key('cmd'):
-            self.cookie_ws_dic[sid]['cmd'] = watchfile(message['ip'], 'root', port, file_path, self.cookie_ws_dic[sid]['output'])
-            self.cookie_ws_dic[sid]['cmd'].start()
+        self.cookie_ws_dic[sid]['output'] = []
+        if self.cookie_ws_dic[sid]['cmd']:
+            self.cookie_ws_dic[sid]['cmd'].stop()
+        self.cookie_ws_dic[sid]['cmd'] = watchfile(message['ip'], 'root', port, file_path, self.cookie_ws_dic[sid]['output'])
+        self.cookie_ws_dic[sid]['cmd'].start()
 
     def get_client_sid(self, request):
         sid = request.cookies.get("sid")

@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, session, make_response
-from flask.ext.socketio import SocketIO, emit
-
 import time, ConfigParser
 from threading import Thread
-from os import system
+from os import system, getpid
 from random import random
+
+from flask import Flask, render_template, request, session, make_response
+from flask.ext.socketio import SocketIO, emit
 
 from utils import g_output_log, get_ip_list, get_dir_list, \
     get_file_list, get_port, uniq_num
@@ -19,6 +19,11 @@ conf.read("ws.conf")
 
 cookie_ws_dic = cookie_ws()
 
+def write_pid(f):
+    pid=str(getpid())
+    f=open(f, 'w')
+    f.write(pid)
+    f.close()
 
 @app.route('/')
 def index():
@@ -84,6 +89,8 @@ def test_disconnect():
     time.sleep(0.5)
     cookie_ws_dic.client_pop(request)
     app.logger.debug('Client disconnected')
+    app.logger.debug(cookie_ws_dic.cookie_ws_dic)
 
 if __name__ == '__main__':
+    write_pid('./run.pid')
     socketio.run(app, host="0.0.0.0", debug=True)

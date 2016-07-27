@@ -15,7 +15,10 @@ $(document).ready(function(){
     socket.on('my response', function(msg) {
         var value_new = $('#log').val() + "\n" + msg.data;
         $('#log').val(value_new);
-        textarea.scrollTop = textarea.scrollHeight;
+        if ($('#scroll').val() == "Stop scroll")
+            {
+            textarea.scrollTop = textarea.scrollHeight;
+            }
         //alert(msg.data);
         //$('#log').append(msg.data);
 
@@ -32,6 +35,18 @@ $(document).ready(function(){
     });
 
     $('#log').scrollTop($('#log')[0].scrollHeight);
+
+    $('#scroll').click(function() {
+        var a = $('#scroll').val();
+        if (a == "Stop scroll")
+            {
+            $('#scroll').val("Start scroll");
+            }
+        else
+            {
+            $('#scroll').val("Stop scroll");
+            }
+    })
 
     $("#ip").change(function(){
         $.post(
