@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time, threading
 from paramiko import SSHClient, AutoAddPolicy
 

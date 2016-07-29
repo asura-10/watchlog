@@ -10,22 +10,40 @@ $(document).ready(function(){
             })
         }
     });
+
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-    var textarea = document.getElementById('log');
+    var textarea = document.getElementById('log_ol');
+    var line_array = new Array();
     socket.on('my response', function(msg) {
-        var value_new = $('#log').val() + "\n" + msg.data;
-        $('#log').val(value_new);
+        filter = $('#filter').val()
+        line_array.push(msg.data);
+        //alert(line_array.join());
+        
+        var new_array = new Array();
+        $('#log_ol').empty();
+        line_array.forEach(function(line){
+            if (filter != '')
+            {
+                if (line.match(filter) != null)
+                {
+                    new_line = line.replace(filter, '<span style="color:red">' + filter + '</span>');
+                    $('#log_ol').append('<li>' + new_line + '</li>');
+                }
+            }
+            else
+            {
+                $('#log_ol').append('<li>' + line + '</li>');
+            }
+        })
+
+        //$('#log_ol').val(value_new);
         if ($('#scroll').val() == "Stop scroll")
             {
-            textarea.scrollTop = textarea.scrollHeight;
+                textarea.scrollTop = textarea.scrollHeight;
             }
-        //alert(msg.data);
-        //$('#log').append(msg.data);
-
-        //$('#log').append('<p>Received: ' + msg.data + '</p>');
     });
     $('form#select_form').submit(function(event) {
-        $('#log').val("")
+        $('#log_ol').val("")
         socket.emit('my event', {ip: $('#ip').val(), dir: $('#dir').val(), file: $('#file').val()});
         return false;
     });
@@ -34,7 +52,20 @@ $(document).ready(function(){
         return false;
     });
 
-    $('#log').scrollTop($('#log')[0].scrollHeight);
+    $('#filter').keyup(function(){
+        $('#log_ol').empty();
+        line_array.forEach(function(e){
+            var a = $('#filter').val();
+            if (e.match(a) != null)
+            {
+                e = e.replace(a, '<span style="color:red">' + a + '</span>');
+                $('#log_ol').append('<li>' + e + '</li>');
+            }
+            $('#log_ol')[0].scrollTop = $('#log_ol')[0].scrollHeight;
+        })
+    });
+
+    $('#log_ol').scrollTop($('#log_ol')[0].scrollHeight);
 
     $('#scroll').click(function() {
         var a = $('#scroll').val();
